@@ -480,7 +480,8 @@ collection = create_collection()
 # temporary, so it isn't loading in keywords each time
 set_collection_keywords(collection)
 filtered_collection = filter_collection(collection, "guardian")
-
+for card in filtered_collection:
+	print (card.get_name())
 
 #show_pack(collection)
 #show_multipack(collection)
