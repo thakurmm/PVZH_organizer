@@ -1,99 +1,102 @@
 #!/Users/mohit/anaconda/bin/python
 # TODO: remove shebang line for export
-# TODO: remove shebang line for export
+
 import sys
 from random import shuffle
 import random
 
 class Card:
 	# TODO: add cost, attack, and health variables
-	def __init__(self, _name):
-		self.n = _name
+	def __init__(self, name):
+		# self.keys = ["name", "faction", "class", "tribes", "set", "rarity", "attributes", "effect", "description", "value"]
+		self.var = {}
+		# self.var.fromkeys(self.keys, None)
+		self.var["name"] = name
 
 	# "Life of the party", "Plant food", etc.
-	def reset_name(self, _name):
-		self.n = _name
+	def reset_name(self, name):
+		self.var["name"] = name
 	def get_name(self):
-		return self.n
+		return self.var["name"]
 
 	# "zombie" or "plant"
-	def set_faction(self, _faction):
-		self.f = _faction
+	def set_faction(self, faction):
+		self.var["faction"] = faction
 	def get_faction(self):
-		return self.f
+		return self.var["faction"]
 
 	# "beastly", "smarty", etc.
 	def set_class(self, _class):
-		self.c= _class
+		self.var["class"] = _class
 	def get_class(self):
-		return self.c
+		return self.var["class"]
 
 	# "imp", "leafy", etc. (given as a list)
 	# Tricks/Environents are considered to be tribes (i.e. the "environment pack")
-	def set_tribes(self, _tribes):
-		self.t = _tribes
+	def set_tribes(self, tribes):
+		self.var["tribes"] = tribes
 	def get_tribes(self):
-		return self.t
+		return self.var["tribes"]
 
 	# "basic", "premium", "galactic", "colossal", "triassic".
 	# Event cards are considered set-less
-	def set_set(self, _set=None):
-		self.s = _set
+	def set_set(self, set=None):
+		self.var["set"] = set
 	def get_set(self):
-		return self.s
+		return self.var["set"]
 
-	# "uncommon", "rare", "superrare", "event", or "legendary"
-	def set_rarity(self, _rarity):
-		self.r = _rarity
+	# "common", uncommon", "rare", "superrare", "event", or "legendary"
+	def set_rarity(self, rarity):
+		self.var["rarity"] = rarity
 		self.set_value()
 	def get_rarity(self):
-		return self.r
+		return self.var["rarity"]
 
 	# "Team-up", "Bullseye", etc. (given as a list)
-	def set_attributes(self, _attributes=[]):
-		self.a = _attributes
+	def set_attributes(self, attributes=[]):
+		self.var["attributes"] = attributes
 	def get_attributes(self):
-		return self.a
+		return self.var["attributes"]
 
 	# "When destroyed: Do 2 damage to Zombie here", etc.
-	def set_effect(self, _effect=None):
-		self.e = _effect
+	def set_effect(self, effect=None):
+		self.var["effect"] = effect
 	def get_effect(self):
-		return self.e
+		return self.var["effect"]
 
 	# "He always knows what time it is. CRAZY TIME!", etc.
-	def set_description(self, _description):
-		self.d = _description
+	def set_description(self, description):
+		self.var["description"] = description
 	def get_description(self):
-		return self.d
+		return self.var["description"]
 
 	def set_value(self):
-		if self.r == "Uncommon":
-			self.v = 15
-		elif self.r == "Rare":
-			self.v = 50
-		elif self.r == "Super-Rare" or "Event":
-			self.v = 250
-		elif self.r == "Legendary":
-			self.v = 1000
+		if self.var["rarity"] == "Uncommon":
+			self.var["value"] = 15
+		elif self.var["rarity"] == "Rare":
+			self.var["value"] = 50
+		elif self.var["rarity"] == "Super-Rare" or "Event":
+			self.var["value"] = 250
+		elif self.var["rarity"] == "Legendary":
+			self.var["value"] = 1000
 		else:
 			# debugging: shouldn't be an external way to call this
 			print("No rarity set for this card. Set a rarity first.")
-	def get_spark_value(self):
-		return self.v
+	def get_value(self):
+		return self.var["value"]
 
 	def set_keywords(self):
-		self.k = {}
-		self.k["name"] = [(self.get_name())]
-		self.k["faction"] = [(self.get_faction())]
-		self.k["class"] = [(self.get_class())]
-		self.k["tribe"] = (self.get_tribes())
-		self.k["set"] = [(self.get_set())]
-		self.k["rarity"] = [(self.get_rarity())]
-		self.k["attribute"] = (self.get_attributes())
-		self.k["value"] = [(self.get_spark_value())]
+		self.keywords = {}
+		self.keywords["name"] = [(self.get_name())]
+		self.keywords["faction"] = [(self.get_faction())]
+		self.keywords["class"] = [(self.get_class())]
+		self.keywords["tribe"] = (self.get_tribes())
+		self.keywords["set"] = [(self.get_set())]
+		self.keywords["rarity"] = [(self.get_rarity())]
+		self.keywords["attribute"] = (self.get_attributes())
+		self.keywords["value"] = [(self.get_spark_value())]
 	def get_keywords(self):
-		return self.k
+		return self.keywords
 
 class Pack:
 	# TODO: initialization needs to include set name or tribe type
@@ -226,13 +229,9 @@ class MultiPack:
 		for pack in range(self.num_packs):
 			new_pack = Pack()
 			new_pack.auto_fill(collection)
-			# # version2: merge dictionaries while filling. Not working b/c it loses keys that are 0 ('legendary', usually)
-			# merge_two_dictionaries() function has been removed
-			# self.total = merge_two_dicts(new_pack.total, self.total)
-			# print self.total
 			self.contents.append(new_pack)
 
-		# version1: Just go through all cards again and add up rarities
+		# Just go through all cards again and add up rarities. Inefficient, but working
 		for card in self.get_cards():
 			self.total[card.get_rarity()] += 1
 		
@@ -443,21 +442,18 @@ def filter_collection(collection, keyword, type=None):
 	
 	if type:	
 		for card in collection:
-			print card.get_keywords()
-			print card.get_keywords()[type]
 			if keyword in card.get_keywords()[type]:
 				filtered_collection.append(card)
 	else:
 		for card in collection:
-			_flat_list = [word for sublist in card.get_keywords().values() for word in sublist]
-			print _flat_list
-			if keyword in _flat_list:
+			flat_list = [word for sublist in card.get_keywords().values() for word in sublist]
+			if keyword in flat_list:
 				filtered_collection.append(card)
 	return filtered_collection
 
 
 
-def show_pack(collection):
+def open_pack(collection):
 	# Create a new pack, fill it with cards
 	new_pack = Pack()
 	new_pack.auto_fill(collection)
@@ -466,7 +462,7 @@ def show_pack(collection):
 	new_pack.view_cards()
 	new_pack.view_summary(True)
 
-def show_multipack(collection):
+def open_multipack(collection):
 	new_multi = MultiPack()
 	new_multi.fill(collection)
 	
@@ -477,27 +473,25 @@ def show_multipack(collection):
 	new_multi.view_summary(True)
 
 
-## ------ MAIN STARTS HERE ------- ##
+## ------ MAIN STARTS HERE ------- 
+if __name__ == '__main__':
+	collection = create_collection()
+
+	# # temporary, so it isn't loading in keywords each time
+	# if len(sys.argv) == 2:
+	# 	keyword = sys.argv[1]
+	# 	_type = None
+	# elif len(sys.argv) == 3:
+	# 	keyword = sys.argv[1]
+	# 	_type = sys.argv[2]
+	# set_collection_keywords(collection)
+
+	# filtered_collection = filter_collection(collection, keyword, _type)
+	# for card in filtered_collection:
+	# 	print (card.get_name())
+
+	# open_pack(collection)
+	# open_multipack(collection)
 
 
-if len(sys.argv) == 2:
-	keyword = sys.argv[1]
-	_type = None
-elif len(sys.argv) == 3:
-	keyword = sys.argv[1]
-	_type = sys.argv[2]
-
-collection = create_collection()
-
-# temporary, so it isn't loading in keywords each time
-set_collection_keywords(collection)
-
-filtered_collection = filter_collection(collection, keyword, _type)
-for card in filtered_collection:
-	print (card.get_name())
-
-#show_pack(collection)
-#show_multipack(collection)
-
-
-sys.exit()
+	sys.exit()

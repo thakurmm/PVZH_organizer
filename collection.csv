@@ -1,0 +1,13 @@
+name,faction,class,tribes,set,rarity,attributes,effect,description
+High-Voltage Currant,plant,kabloom,berry,,event,,This gets +1{A} when another Berry does damage. When played: Conjure a Berry.,These trouble makers are just asking to get grounded.
+Wall Nut Bowling,plant,guardian,nut|trick,premium,legendary,,Make a Wall-Nut in each Ground lane. Attack for 6 damage in those lanes.,Ugly shoes not required!
+Zombie Coach,zombie,hearty,mustache|sports,premium,rare,,When played: All Sports Zombies can't be hurt this turn,There's no 'i' in Zombee!
+Galacta-Cactus,plant,guardian,cactus|flower,galactic,superrare,bullseye,When destroyed: Do 1 damage to everything.,I take pity on no one. For I am Galacta-Cactus!
+Laser Base Alpha,zombie,sneaky,science|environment,galactic,superrare,,Zombies here get Deadly and Strikethrough,Zombies with LASERS. What could possibly go wrong?
+Potato Mine,plant,guardian,root,premium,uncommon,team-up,When destroyed: Do 2 damage to a Zombie there,I'm starchy and explosive!
+Cactus,plant,guardian,cactus|flower,premium,uncommon,bullseye,,It's true. I'm prickly on the outside but spongy on the inside.
+Goat,zombie,beastly,pet,triassic,uncommon,,This gets +1{A}/+1{H} when any kind of Goat is hurt,Hungry…Smelly…A lot like a Zombie but with 100% more goat.
+Pool Shark,zombie,brainy,mustache|sports,premium,uncommon,bullseye,,Not actually a shark
+Space Ninja,zombie,crazy,professional,galactic,uncommon,,"While in an Environment: The first time each turn this does damage, do 1 damage to each Plant",You will never hear him coming in the vacuum of space.
+Paparazzi Zombie,zombie,brainy,professional|party,basic,common,,This gets +1{A}/+1{H} when you play a Trick,Why is everyone always screaming and running away in his photos?
+Zombot Aerostatic Gondola,zombie,sneaky,science|pirate,colossal,legendary,amphibious,"When this hurts the Plant Hero, it moves to a random lane and leaves behind a random Zombie","These pirates hit hard, then escape at 3 miles per hour."

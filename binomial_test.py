@@ -74,6 +74,7 @@ class Binomial_distribution:
 
 
 
+## ------ MAIN STARTS HERE ------- 
 
 if __name__ == '__main__':
 	# Probability of getting a super-rare in one pack
