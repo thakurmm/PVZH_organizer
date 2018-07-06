@@ -71,13 +71,17 @@ class Card:
 		return self.var["description"]
 
 	def set_value(self):
-		if self.var["rarity"] == "Uncommon":
+		if self.var["rarity"] == "common":
+			self.var["value"] = 0
+		elif self.var["rarity"] == "uncommon":
 			self.var["value"] = 15
-		elif self.var["rarity"] == "Rare":
+		elif self.var["rarity"] == "rare":
 			self.var["value"] = 50
-		elif self.var["rarity"] == "Super-Rare" or "Event":
+		elif self.var["rarity"] == "superrare":
 			self.var["value"] = 250
-		elif self.var["rarity"] == "Legendary":
+		elif self.var["rarity"] == "event":
+			self.var["value"] = 250
+		elif self.var["rarity"] == "legendary":
 			self.var["value"] = 1000
 		else:
 			# debugging: shouldn't be an external way to call this
@@ -94,7 +98,7 @@ class Card:
 		self.keywords["set"] = [(self.get_set())]
 		self.keywords["rarity"] = [(self.get_rarity())]
 		self.keywords["attribute"] = (self.get_attributes())
-		self.keywords["value"] = [(self.get_spark_value())]
+		self.keywords["value"] = [(self.get_value())]
 	def get_keywords(self):
 		return self.keywords
 
