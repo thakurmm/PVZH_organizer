@@ -45,7 +45,7 @@ class Card:
 	# "uncommon", "rare", "superrare", "event", or "legendary"
 	def set_rarity(self, _rarity):
 		self.r = _rarity
-		self.set_spark_value()
+		self.set_value()
 	def get_rarity(self):
 		return self.r
 
@@ -67,7 +67,7 @@ class Card:
 	def get_description(self):
 		return self.d
 
-	def set_spark_value(self):
+	def set_value(self):
 		if self.r == "Uncommon":
 			self.v = 15
 		elif self.r == "Rare":
@@ -83,15 +83,15 @@ class Card:
 		return self.v
 
 	def set_keywords(self):
-		self.k = []
-		self.k.append(self.get_name())
-		self.k.append(self.get_faction())
-		self.k.append(self.get_class())
-		self.k.extend(self.get_tribes())
-		self.k.append(self.get_set())
-		self.k.append(self.get_rarity())
-		self.k.extend(self.get_attributes())
-		self.k.append(self.get_spark_value())
+		self.k = {}
+		self.k["name"] = [(self.get_name())]
+		self.k["faction"] = [(self.get_faction())]
+		self.k["class"] = [(self.get_class())]
+		self.k["tribe"] = (self.get_tribes())
+		self.k["set"] = [(self.get_set())]
+		self.k["rarity"] = [(self.get_rarity())]
+		self.k["attribute"] = (self.get_attributes())
+		self.k["value"] = [(self.get_spark_value())]
 	def get_keywords(self):
 		return self.k
 
@@ -439,16 +439,20 @@ def set_collection_keywords(collection):
 
 # takes the full collection, keyword, and keyword type as argument and returns filtered list matching the keyword
 def filter_collection(collection, keyword, type=None):
-	# make empty list
-	# iterate through collection
-	# if keyword found on card, append it to empty list (if type given, check keyword is that type for card)
-	# return list
-
 	filtered_collection = []
-	for card in collection:
-		if keyword in card.get_keywords():
-			filtered_collection.append(card)
-
+	
+	if type:	
+		for card in collection:
+			print card.get_keywords()
+			print card.get_keywords()[type]
+			if keyword in card.get_keywords()[type]:
+				filtered_collection.append(card)
+	else:
+		for card in collection:
+			_flat_list = [word for sublist in card.get_keywords().values() for word in sublist]
+			print _flat_list
+			if keyword in _flat_list:
+				filtered_collection.append(card)
 	return filtered_collection
 
 
@@ -476,10 +480,19 @@ def show_multipack(collection):
 ## ------ MAIN STARTS HERE ------- ##
 
 
+if len(sys.argv) == 2:
+	keyword = sys.argv[1]
+	_type = None
+elif len(sys.argv) == 3:
+	keyword = sys.argv[1]
+	_type = sys.argv[2]
+
 collection = create_collection()
+
 # temporary, so it isn't loading in keywords each time
 set_collection_keywords(collection)
-filtered_collection = filter_collection(collection, "guardian")
+
+filtered_collection = filter_collection(collection, keyword, _type)
 for card in filtered_collection:
 	print (card.get_name())
 
